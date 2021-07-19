@@ -1,0 +1,24 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:${BuildTools.buildGradle}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:${Google.hilt}"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:${AndroidX.navigation}"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

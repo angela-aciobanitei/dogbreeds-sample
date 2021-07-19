@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.7">
+      <module name="Dog_Breeds.app" target="12" />
+      <module name="Dog_Breeds.data" target="12" />
+      <module name="DogBreeds.buildSrc" target="12" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,79 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.ang.acb.dogbreeds"
+        minSdkVersion 26
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = Jvm.version
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation(project(":domain"))
+    implementation(project(":data"))
+
+    // Kotlin
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Kotlin.coroutines}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Kotlin.coroutines}"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:${Google.hilt}"
+    kapt "com.google.dagger:hilt-compiler:${Google.hilt}"
+
+    // AndroidX
+    implementation "androidx.core:core-ktx:${AndroidX.core}"
+    implementation "androidx.appcompat:appcompat:${AndroidX.appcompat}"
+    implementation "androidx.constraintlayout:constraintlayout:${AndroidX.constraintLayout}"
+    implementation "androidx.fragment:fragment-ktx:${AndroidX.fragmentKtx}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${AndroidX.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${AndroidX.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:${AndroidX.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-common-java8:${AndroidX.lifecycle}"
+    implementation "androidx.navigation:navigation-fragment-ktx:${AndroidX.navigation}"
+    implementation "androidx.navigation:navigation-ui-ktx:${AndroidX.navigation}"
+    implementation "com.google.android.material:material:${Google.material}"
+
+    // Utils
+    implementation "com.jakewharton.timber:timber:${Utils.timber}"
+
+    // Testing
+    testImplementation "junit:junit:${Testing.junit}"
+    testImplementation "org.hamcrest:hamcrest-library:${Testing.hamcrest}"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Kotlin.coroutines}"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Kotlin.coroutines}"
+    testImplementation "androidx.test:core:${Testing.androidxCore}"
+    testImplementation "androidx.test.ext:junit:${Testing.junitExt}"
+    testImplementation "androidx.arch.core:core-testing:${Testing.archCore}"
+    testImplementation "com.google.dagger:hilt-android-testing:${Google.hilt}"
+    kaptTest "com.google.dagger:hilt-compiler:${Google.hilt}"
+}
