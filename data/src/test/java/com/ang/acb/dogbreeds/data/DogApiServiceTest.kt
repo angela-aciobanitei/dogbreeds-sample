@@ -76,7 +76,7 @@ class DogApiServiceTest {
     fun getAllBreedImages_onSuccess_responseIsNotNull() {
         runBlocking {
             mockServer.enqueueMockResponse("get_breed_images_success.json", 200)
-            val response = apiService.getBreedImages("hound")
+            val response = apiService.getBreedImages("hound", 10)
 
             assertThat(response, notNullValue())
         }
@@ -86,7 +86,7 @@ class DogApiServiceTest {
     fun getAllBreedImages_onSuccess_responseIsNotEmpty() {
         runBlocking {
             mockServer.enqueueMockResponse("get_breed_images_success.json", 200)
-            val response = apiService.getBreedImages("hound")
+            val response = apiService.getBreedImages("hound", 10)
 
             assertThat(response.message?.isNotEmpty(), `is`(true))
         }
@@ -96,9 +96,9 @@ class DogApiServiceTest {
     fun getAllBreedImages_onSuccess_verifyResponseSize() {
         runBlocking {
             mockServer.enqueueMockResponse("get_breed_images_success.json", 200)
-            val response = apiService.getBreedImages("hound")
+            val response = apiService.getBreedImages("hound", 10)
 
-            assertThat(response.message?.isNotEmpty(), `is`(true))
+            assertThat(response.message?.size, `is`(10))
         }
     }
 

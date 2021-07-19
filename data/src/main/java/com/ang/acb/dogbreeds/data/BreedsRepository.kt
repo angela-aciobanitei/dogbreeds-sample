@@ -12,7 +12,7 @@ class BreedsRepository @Inject constructor(
         return dataSource.getBreedsList()
     }
 
-    override suspend fun getBreedImages(breedName: String): List<BreedImage> {
-        return dataSource.getBreedImages(breedName)
+    override suspend fun getBreedImages(breedName: String, imageCount: Int): List<BreedImage> {
+        return dataSource.getBreedImages(breedName, imageCount)
     }
 }

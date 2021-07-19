@@ -16,7 +16,7 @@ class BreedImagesViewModel @Inject constructor(
     fun getImages(breedName: String) {
         viewModelScope.launch {
             try {
-                val images = getBreedImagesUseCase.execute(breedName)
+                val images = getBreedImagesUseCase.execute(breedName, 10) // todo no magic no
                 Timber.d("asd images = $images")
             } catch (e: Exception) {
                 Timber.e(e)
