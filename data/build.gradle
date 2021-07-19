@@ -44,4 +44,12 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:${Network.retrofit}"
     implementation "com.squareup.retrofit2:converter-scalars:${Network.retrofit}"
     implementation "com.squareup.okhttp3:logging-interceptor:${Network.okhttpLogging}"
+
+    // Testing
+    testImplementation "junit:junit:${Testing.junit}"
+    testImplementation "org.hamcrest:hamcrest-library:${Testing.hamcrest}"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Kotlin.coroutines}"
+    testImplementation "androidx.test:core:${Testing.androidxCore}"
+    testImplementation "androidx.test.ext:junit:${Testing.junitExt}"
+    testImplementation "com.squareup.okhttp3:mockwebserver:${Testing.mockWebServer}"
 }

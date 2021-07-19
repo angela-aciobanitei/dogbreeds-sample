@@ -1,7 +1,5 @@
 package com.ang.acb.dogbreeds.data
 
-import com.ang.acb.dogbreeds.data.apiresponse.BreedImagesResponse
-import com.ang.acb.dogbreeds.data.apiresponse.BreedsListResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
