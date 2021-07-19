@@ -14,7 +14,8 @@ class GridMarginDecoration private constructor(
 ) : RecyclerView.ItemDecoration() {
 
     constructor(
-        context: Context, @DimenRes itemOffsetId: Int
+        context: Context,
+        @DimenRes itemOffsetId: Int,
     ) : this(context.resources.getDimensionPixelSize(itemOffsetId))
 
     override fun getItemOffsets(

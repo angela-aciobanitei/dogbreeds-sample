@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -56,10 +55,6 @@ class BreedImagesFragment : Fragment() {
     private fun observeData() {
         viewModel.images.observe(viewLifecycleOwner, {
             adapter.submitList(it)
-        })
-
-        viewModel.loading.observe(viewLifecycleOwner, {
-            binding.progressBar.isVisible = it
         })
 
         viewModel.message.observe(viewLifecycleOwner, EventObserver {

@@ -11,18 +11,15 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
     @Singleton
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        // Retrofit completely relies on OkHttp for any network operation.
-        // Since logging isn’t integrated by default anymore in Retrofit 2,
-        // we'll use a logging interceptor for OkHttp.
         return HttpLoggingInterceptor().apply {
             level = when {
                 BuildConfig.DEBUG -> HttpLoggingInterceptor.Level.BODY
@@ -48,7 +45,6 @@ object NetworkModule {
     ): Retrofit = Retrofit.Builder()
         .baseUrl(DOGS_API_BASE_URL)
         .client(client)
-        .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

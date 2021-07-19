@@ -23,24 +23,18 @@ class BreedImagesViewModel @Inject constructor(
     private val _images: MutableLiveData<List<BreedImage>> = MutableLiveData()
     val images: LiveData<List<BreedImage>> = _images
 
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> = _loading
-
     private val _message: MutableLiveData<Event<Int>> = MutableLiveData()
     val message: LiveData<Event<Int>> = _message
 
     fun getImages(breedName: String) {
         viewModelScope.launch {
-            _loading.postValue(true)
             try {
                 val result = getBreedImagesUseCase.execute(breedName, imagesCount)
-                Timber.d("asd images=$result")
                 _images.postValue(result)
             } catch (e: Exception) {
                 Timber.e(e)
                 _message.postValue(Event(R.string.get_breed_images_error_message))
             }
-            _loading.postValue(false)
         }
     }
 }

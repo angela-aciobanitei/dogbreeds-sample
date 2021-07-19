@@ -16,15 +16,10 @@ class BreedImageViewHolder(
         Glide.with(binding.root.context)
             .load(image.url)
             .centerCrop()
-            // Display a placeholder until the image is loaded and processed.
             .placeholder(R.drawable.loading_anim)
-            // Provide an error placeholder when Glide is unable to load the
-            // image. This will be shown for the non-existing-url.
             .error(R.color.midnight50)
-            // Use fallback image resource when the url can be null.
             .fallback(R.color.midnight50)
             .into(binding.ivBreed)
-
     }
 
     companion object {
