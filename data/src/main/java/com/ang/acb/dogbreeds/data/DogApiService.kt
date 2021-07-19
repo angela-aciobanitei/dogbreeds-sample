@@ -7,10 +7,9 @@ interface DogApiService {
     @GET("breeds/list/all")
     suspend fun getAllBreeds(): BreedsListResponse
 
-    @GET("breed/{breed}/images/random/{imageCount}")
+    @GET("breed/{breedName}/images/random/{imagesCount}")
     suspend fun getBreedImages(
-        @Path("breed") breed: String,
-        @Path("imageCount") imageCount: Int,
-
-        ): BreedImagesResponse
+        @Path("breedName") breedName: String,
+        @Path("imagesCount") imagesCount: Int,
+    ): BreedImagesResponse
 }

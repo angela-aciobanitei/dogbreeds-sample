@@ -11,7 +11,7 @@ class RemoteBreedsDataSource @Inject constructor(
         return dogApiService.getAllBreeds().message.toBreeds()
     }
 
-    suspend fun getBreedImages(breedName: String, imageCount: Int): List<BreedImage> {
-        return dogApiService.getBreedImages(breedName, imageCount).message.toBreedImages()
+    suspend fun getBreedImages(breedName: String, imagesCount: Int): List<BreedImage> {
+        return dogApiService.getBreedImages(breedName, imagesCount).message.toBreedImages()
     }
 }

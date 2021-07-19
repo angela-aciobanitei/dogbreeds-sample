@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+private const val imagesCount = 10
+
 @HiltViewModel
 class BreedImagesViewModel @Inject constructor(
     private val getBreedImagesUseCase: GetBreedImagesUseCase,
@@ -31,7 +33,7 @@ class BreedImagesViewModel @Inject constructor(
         viewModelScope.launch {
             _loading.postValue(true)
             try {
-                val result = getBreedImagesUseCase.execute(breedName, 10) // todo no magic no
+                val result = getBreedImagesUseCase.execute(breedName, imagesCount)
                 Timber.d("asd images=$result")
                 _images.postValue(result)
             } catch (e: Exception) {

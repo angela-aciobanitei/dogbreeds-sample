@@ -7,14 +7,15 @@ import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * A custom ItemDecoration to provide equal column spacing for a RecyclerView that lays out items in a grid.
- * See: https://stackoverflow.com/questions/28531996/android-recyclerview-gridlayoutmanager-column-spacing
+ * A custom ItemDecoration to provide equal spacing for a RecyclerView that lays out items in a grid.
  */
-class GridMarginDecoration private constructor(private val itemOffset: Int) :
-    RecyclerView.ItemDecoration() {
+class GridMarginDecoration private constructor(
+    private val itemOffset: Int
+) : RecyclerView.ItemDecoration() {
 
-    constructor(context: Context, @DimenRes itemOffsetId: Int) :
-            this(context.resources.getDimensionPixelSize(itemOffsetId))
+    constructor(
+        context: Context, @DimenRes itemOffsetId: Int
+    ) : this(context.resources.getDimensionPixelSize(itemOffsetId))
 
     override fun getItemOffsets(
         outRect: Rect, view: View,

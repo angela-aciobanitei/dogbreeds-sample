@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ang.acb.dogbreeds.databinding.ItemBreedBinding
 import com.ang.acb.dogbreeds.domain.Breed
+import java.util.*
 
 class BreedItemViewHolder(
     private val binding: ItemBreedBinding,
@@ -12,7 +13,11 @@ class BreedItemViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(breed: Breed) {
-        binding.tvName.text = breed.name
+        binding.tvName.text = breed.name.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(
+                Locale.getDefault()
+            ) else it.toString()
+        }
         binding.contactRoot.setOnClickListener {
             onItemClick(breed.name)
         }
