@@ -1,4 +1,5 @@
 package com.ang.acb.dogbreeds.domain
 
-class Breed {
-}
+data class Breed(
+    val name: String,
+)
