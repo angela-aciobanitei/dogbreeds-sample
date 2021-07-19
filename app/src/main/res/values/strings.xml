@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Dog Breeds</string>
     <string name="breeds_list_fragment_label">Breeds List</string>
-    <string name="breed_iamge_fragment_label">Breed Images</string>
+    <string name="breed_images_fragment_label">Breed Images</string>
+    <string name="get_breeds_list_error_message">Could not load breeds</string>
+    <string name="get_breed_images_error_message">Could not load breed images</string>
 </resources>

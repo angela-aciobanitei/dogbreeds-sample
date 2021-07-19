@@ -62,7 +62,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:${AndroidX.lifecycle}"
     implementation "androidx.navigation:navigation-fragment-ktx:${AndroidX.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${AndroidX.navigation}"
+
+    // UI
     implementation "com.google.android.material:material:${Google.material}"
+    implementation "com.github.bumptech.glide:glide:${UI.glide}"
+    kapt "com.github.bumptech.glide:compiler:${UI.glide}"
 
     // Networking
     implementation "com.squareup.retrofit2:retrofit:${Network.retrofit}"

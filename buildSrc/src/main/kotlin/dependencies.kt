@@ -27,6 +27,10 @@ object AndroidX {
     const val navigation = "2.3.5"
 }
 
+object UI {
+    const val glide = "4.12.0"
+}
+
 object Network {
     const val retrofit = "2.9.0"
     const val okhttpLogging = "4.9.1"

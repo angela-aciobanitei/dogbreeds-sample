@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/breedImagesFragment"
         android:name="com.ang.acb.dogbreeds.details.BreedImagesFragment"
-        android:label="@string/breed_iamge_fragment_label"
+        android:label="@string/breed_images_fragment_label"
         tools:layout="@layout/breed_images_fragment">
         <argument
             android:name="breedName"
