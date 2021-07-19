@@ -52,6 +52,7 @@ dependencies {
 
     // AndroidX
     implementation "androidx.core:core-ktx:${AndroidX.core}"
+    implementation "androidx.legacy:legacy-support-v4:${AndroidX.legacySupport}"
     implementation "androidx.appcompat:appcompat:${AndroidX.appcompat}"
     implementation "androidx.constraintlayout:constraintlayout:${AndroidX.constraintLayout}"
     implementation "androidx.fragment:fragment-ktx:${AndroidX.fragmentKtx}"
