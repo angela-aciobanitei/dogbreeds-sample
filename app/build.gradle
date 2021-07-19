@@ -64,6 +64,12 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:${AndroidX.navigation}"
     implementation "com.google.android.material:material:${Google.material}"
 
+    // Networking
+    implementation "com.squareup.retrofit2:retrofit:${Network.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${Network.retrofit}"
+    implementation "com.squareup.retrofit2:converter-scalars:${Network.retrofit}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${Network.okhttpLogging}"
+
     // Utils
     implementation "com.jakewharton.timber:timber:${Utils.timber}"
 

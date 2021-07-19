@@ -34,7 +34,7 @@ class BreedsListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.helloBreeds.setOnClickListener {
-            viewModel.onBreedClick("testBreed")
+            viewModel.onBreedClick("hound")
         }
 
         observeNavigation()

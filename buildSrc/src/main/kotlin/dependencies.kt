@@ -27,6 +27,11 @@ object AndroidX {
     const val navigation = "2.3.5"
 }
 
+object Network {
+    const val retrofit = "2.9.0"
+    const val okhttpLogging = "4.9.1"
+}
+
 object Testing {
     const val archCore = "2.1.0"
     const val androidxCore = "1.4.0"

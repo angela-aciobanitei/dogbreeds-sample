@@ -33,6 +33,7 @@ class BreedImagesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Timber.d("asd args = $args")
+        viewModel.getImages(args.breedName)
     }
 
     override fun onDestroyView() {

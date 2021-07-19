@@ -1,7 +1,11 @@
 package com.ang.acb.dogbreeds.domain
 
-class GetBreedImagesUseCase(private val breedsGateway: BreedsGateway) {
+import javax.inject.Inject
+
+class GetBreedImagesUseCase @Inject constructor(
+    private val breedsGateway: BreedsGateway,
+) {
     suspend fun execute(breedName: String): List<BreedImage> {
-        return breedsGateway.getBreedImage(breedName)
+        return breedsGateway.getBreedImages(breedName)
     }
 }

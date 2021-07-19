@@ -40,4 +40,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Kotlin.coroutines}"
     implementation "javax.inject:javax.inject:${Jvm.inject}"
     implementation "com.jakewharton.timber:timber:${Utils.timber}"
+    implementation "com.squareup.retrofit2:retrofit:${Network.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${Network.retrofit}"
+    implementation "com.squareup.retrofit2:converter-scalars:${Network.retrofit}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${Network.okhttpLogging}"
 }
