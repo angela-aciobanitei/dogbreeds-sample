@@ -11,4 +11,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${Kotlin.version}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Kotlin.coroutines}"
     implementation "javax.inject:javax.inject:${Jvm.inject}"
+
+    testImplementation "junit:junit:${Testing.junit}"
+    testImplementation "org.hamcrest:hamcrest-library:${Testing.hamcrest}"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Kotlin.coroutines}"
 }
