@@ -1,6 +1,6 @@
 package com.ang.acb.dogbreeds.domain
 
-class FakeBreedsRepository : BreedsGateway {
+class FakeRepository : BreedsGateway {
 
     private var breedsList = mutableListOf<Breed>()
     private var breedImages = mutableListOf<BreedImage>()

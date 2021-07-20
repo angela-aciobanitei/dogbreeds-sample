@@ -15,7 +15,7 @@ class GetBreedsListUseCaseTest {
     private lateinit var useCase: GetBreedsListUseCase
 
     // Use a fake repository to be injected into the use case
-    private lateinit var fakeRepository: FakeBreedsRepository
+    private lateinit var fakeRepository: FakeRepository
 
     // Sets the main coroutines dispatcher for unit testing
     @get:Rule
@@ -23,7 +23,7 @@ class GetBreedsListUseCaseTest {
 
     @Before
     fun setup() {
-        fakeRepository = FakeBreedsRepository()
+        fakeRepository = FakeRepository()
         useCase = GetBreedsListUseCase(fakeRepository)
     }
 

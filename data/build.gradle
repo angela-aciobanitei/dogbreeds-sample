@@ -17,18 +17,19 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = Jvm.version
+    }
+    packagingOptions {
+        // Multiple dependency (test coroutines dependencies) bring these files in.
+        // Exclude them to enable the test APK to build.
+        // https://github.com/Kotlin/kotlinx.coroutines/issues/2023
+        excludes += "/META-INF/AL2.0"
+        excludes += "/META-INF/LGPL2.1"
     }
 }
 
@@ -52,4 +53,5 @@ dependencies {
     testImplementation "androidx.test:core:${Testing.androidxCore}"
     testImplementation "androidx.test.ext:junit:${Testing.junitExt}"
     testImplementation "com.squareup.okhttp3:mockwebserver:${Testing.mockWebServer}"
+    implementation "androidx.test.espresso:espresso-idling-resource:${Testing.espresso}"
 }

@@ -17,13 +17,32 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.ang.acb.dogbreeds.CustomTestRunner"
+    }
+    android {
+        sourceSets {
+            String sharedTestDir = 'src/sharedTest/java'
+            test {
+                java.srcDirs += sharedTestDir
+            }
+            androidTest {
+                java.srcDirs += sharedTestDir
+            }
+        }
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
         }
     }
     compileOptions {
@@ -35,6 +54,13 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    packagingOptions {
+        // Multiple dependency (test coroutines dependencies) bring these files in.
+        // Exclude them to enable the test APK to build.
+        // https://github.com/Kotlin/kotlinx.coroutines/issues/2023
+        excludes += "/META-INF/AL2.0"
+        excludes += "/META-INF/LGPL2.1"
     }
 }
 
@@ -55,6 +81,7 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:${AndroidX.legacySupport}"
     implementation "androidx.appcompat:appcompat:${AndroidX.appcompat}"
     implementation "androidx.constraintlayout:constraintlayout:${AndroidX.constraintLayout}"
+    implementation "androidx.recyclerview:recyclerview:${AndroidX.recyclerView}"
     implementation "androidx.fragment:fragment-ktx:${AndroidX.fragmentKtx}"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${AndroidX.lifecycle}"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:${AndroidX.lifecycle}"
@@ -87,4 +114,29 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:${Testing.archCore}"
     testImplementation "com.google.dagger:hilt-android-testing:${Google.hilt}"
     kaptTest "com.google.dagger:hilt-compiler:${Google.hilt}"
+    // Once https://issuetracker.google.com/127986458 is fixed this can be testImplementation
+    debugImplementation "androidx.fragment:fragment-testing:${AndroidX.fragment}"
+    implementation "androidx.test:core:${Testing.androidxCore}"
+    implementation "androidx.fragment:fragment:${AndroidX.fragment}"
+
+    androidTestImplementation "com.google.dagger:hilt-android-testing:${Google.hilt}"
+    kaptAndroidTest "com.google.dagger:hilt-compiler:${Google.hilt}"
+    androidTestImplementation "junit:junit:${Testing.junit}"
+    androidTestImplementation "androidx.test.ext:junit-ktx:${Testing.junitExt}"
+    androidTestImplementation "androidx.test:rules:${Testing.rules}"
+    androidTestImplementation "androidx.arch.core:core-testing:${Testing.archCore}"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Kotlin.coroutines}"
+    androidTestImplementation "androidx.navigation:navigation-testing:${AndroidX.navigation}"
+    androidTestImplementation "androidx.test.espresso:espresso-core: ${Testing.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:${Testing.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:${Testing.espresso}"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:${Testing.espresso}"
+    implementation "androidx.test.espresso:espresso-idling-resource:${Testing.espresso}"
+
+    // Resolve conflicts between main and test APK:
+    androidTestImplementation "androidx.annotation:annotation:${AndroidX.annotations}"
+    androidTestImplementation "androidx.legacy:legacy-support-v4:${AndroidX.legacySupport}"
+    androidTestImplementation "androidx.recyclerview:recyclerview:${AndroidX.recyclerView}"
+    androidTestImplementation "androidx.appcompat:appcompat:${AndroidX.appcompat}"
+    androidTestImplementation "com.google.android.material:material:${Google.material}"
 }
