@@ -20,7 +20,11 @@ class FakeBreedsRepository @Inject constructor() : BreedsGateway {
     }
 
     override suspend fun getBreedImages(breedName: String, imagesCount: Int): List<BreedImage> {
-        return breedImages
+        return if (shouldReturnError) {
+            throw Exception("Test exception")
+        } else {
+            breedImages
+        }
     }
 
     fun addBreeds(breeds: List<Breed>) {

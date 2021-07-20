@@ -3,6 +3,7 @@
     <string name="breeds_list_fragment_label">Breeds List</string>
     <string name="breed_images_fragment_label">Breed Images</string>
     <string name="get_breeds_list_error_message">Could not load breeds</string>
-    <string name="get_breeds_list_empty_message">Could not find any breeds</string>
+    <string name="get_breeds_list_empty_results_message">Could not find any breeds</string>
     <string name="get_breed_images_error_message">Could not load breed images</string>
+    <string name="get_breed_images_empty_results_message">Could not find any breed images</string>
 </resources>

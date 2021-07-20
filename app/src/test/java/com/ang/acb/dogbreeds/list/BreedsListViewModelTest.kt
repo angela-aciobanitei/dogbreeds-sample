@@ -26,17 +26,42 @@ class BreedsListViewModelTest {
     // Use a fake repository to be injected into the use case
     private lateinit var fakeRepository: FakeBreedsRepository
 
-    // Set the main coroutines dispatcher for unit testing.
+    // Set the main coroutines dispatcher for unit testing
     @get:Rule
     var mainCoroutineRule = TestCoroutineRule()
 
-    // Executes each task synchronously using Architecture Components.
+    // Executes each task synchronously using Architecture Components
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setupViewModel() {
         fakeRepository = FakeBreedsRepository()
+
+        viewModel = BreedsListViewModel(GetBreedsListUseCase(fakeRepository))
+    }
+
+    @Test
+    fun loadAllBreeds_onSuccess_checkEmptyResults() {
+        // Given no breeds in the repo
+        // When retrieving the breeds list
+        viewModel.loadAllBreeds()
+
+        viewModel.breeds.observeForTesting {
+            // Then the view model breeds list is empty too
+            assertThat(viewModel.breeds.getOrAwaitValue().isEmpty(), `is`(true))
+
+            // And the snackbar text is updated
+            assertThat(
+                viewModel.message.getOrAwaitValue().getContentIfNotHandled(),
+                `is`(R.string.get_breeds_list_empty_results_message)
+            )
+        }
+    }
+
+    @Test
+    fun loadAllBreeds_onSuccess_checkLoadingTogglesAndData() {
+        // Given 4 breeds in the repo
         val testBreedsList = listOf(
             Breed("cattledog", listOf(SubBreed("australian"))),
             Breed("chow", emptyList()),
@@ -46,18 +71,12 @@ class BreedsListViewModelTest {
         runBlocking {
             fakeRepository.addBreeds(testBreedsList)
         }
-        viewModel = BreedsListViewModel(GetBreedsListUseCase(fakeRepository))
-    }
-
-    @Test
-    fun loadAllBreeds_loadingTogglesAndDataIsLoaded() {
         // Pause dispatcher so we can verify initial values
         mainCoroutineRule.pauseDispatcher()
 
-        // Trigger loading of breeds list
-        viewModel.loadBreeds()
+        // When retrieving the breeds list
+        viewModel.loadAllBreeds()
 
-        // Observe the breeds list to keep LiveData emitting
         viewModel.breeds.observeForTesting {
             // Then progress indicator is shown
             assertThat(viewModel.loading.getOrAwaitValue(), `is`(true))
@@ -74,19 +93,29 @@ class BreedsListViewModelTest {
     }
 
     @Test
-    fun loadAllBreeds_errorSnackbarUpdated() {
-        // Make the repository return errors
+    fun loadAllBreeds_onError_loadingIsHidden() {
+        // Given a repository that return errors
         fakeRepository.setReturnError(true)
 
-        // Trigger loading of breeds list
-        viewModel.loadBreeds()
+        // When retrieving the breeds list
+        viewModel.loadAllBreeds()
 
-        // Observe the breeds list to keep LiveData emitting
+        // Then the progress indicator is hidden
         viewModel.breeds.observeForTesting {
-            // Then progress indicator is hidden
             assertThat(viewModel.loading.getOrAwaitValue(), `is`(false))
+        }
+    }
 
-            // And the snackbar text is updated
+    @Test
+    fun loadAllBreeds_onError_snackbarTextUpdated() {
+        // Given a repository that return errors
+        fakeRepository.setReturnError(true)
+
+        // When retrieving the breeds list
+        viewModel.loadAllBreeds()
+
+        // Then the snackbar text is updated
+        viewModel.breeds.observeForTesting {
             assertThat(
                 viewModel.message.getOrAwaitValue().getContentIfNotHandled(),
                 `is`(R.string.get_breeds_list_error_message)

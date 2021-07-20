@@ -31,10 +31,13 @@ class BreedImagesViewModel @Inject constructor(
         breedName?.let { getImages(it) } ?: showError()
     }
 
-    private fun getImages(breedName: String) {
+    fun getImages(breedName: String) {
         viewModelScope.launch {
             try {
                 val result = getBreedImagesUseCase.execute(breedName, imagesCount)
+                if (result.isEmpty()) {
+                    _message.postValue(Event(R.string.get_breed_images_empty_results_message))
+                }
                 _images.postValue(result)
             } catch (e: Exception) {
                 Timber.e(e)

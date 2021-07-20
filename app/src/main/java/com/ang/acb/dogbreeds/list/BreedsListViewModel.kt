@@ -31,16 +31,16 @@ class BreedsListViewModel @Inject constructor(
     val navigation: LiveData<Event<Navigation>> = _navigation
 
     init {
-        loadBreeds()
+        loadAllBreeds()
     }
 
-    fun loadBreeds() {
+    fun loadAllBreeds() {
         _loading.postValue(true)
         viewModelScope.launch {
             try {
                 val result = getBreedsListUseCase.execute()
                 if (result.isEmpty()) {
-                    _message.postValue(Event(R.string.get_breeds_list_empty_message))
+                    _message.postValue(Event(R.string.get_breeds_list_empty_results_message))
                 }
                 _breeds.postValue(result)
             } catch (e: Exception) {

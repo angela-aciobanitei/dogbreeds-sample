@@ -73,7 +73,7 @@ class BreedsListFragmentTest {
 
         // Then a message is shown
         val message =
-            getApplicationContext<Context>().getString(R.string.get_breeds_list_empty_message)
+            getApplicationContext<Context>().getString(R.string.get_breeds_list_empty_results_message)
         onView(withText(message)).check(matches(isDisplayed()))
     }
 
