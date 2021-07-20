@@ -1,9 +1,6 @@
 package com.ang.acb.dogbreeds.details
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ang.acb.dogbreeds.R
 import com.ang.acb.dogbreeds.domain.BreedImage
 import com.ang.acb.dogbreeds.domain.GetBreedImagesUseCase
@@ -14,11 +11,15 @@ import timber.log.Timber
 import javax.inject.Inject
 
 private const val imagesCount = 10
+private const val breedNameKey = "breedName"
 
 @HiltViewModel
 class BreedImagesViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getBreedImagesUseCase: GetBreedImagesUseCase,
 ) : ViewModel() {
+
+    private val breedName = savedStateHandle.get<String>(breedNameKey)
 
     private val _images: MutableLiveData<List<BreedImage>> = MutableLiveData()
     val images: LiveData<List<BreedImage>> = _images
@@ -26,15 +27,23 @@ class BreedImagesViewModel @Inject constructor(
     private val _message: MutableLiveData<Event<Int>> = MutableLiveData()
     val message: LiveData<Event<Int>> = _message
 
-    fun getImages(breedName: String) {
+    init {
+        breedName?.let { getImages(it) } ?: showError()
+    }
+
+    private fun getImages(breedName: String) {
         viewModelScope.launch {
             try {
                 val result = getBreedImagesUseCase.execute(breedName, imagesCount)
                 _images.postValue(result)
             } catch (e: Exception) {
                 Timber.e(e)
-                _message.postValue(Event(R.string.get_breed_images_error_message))
+                showError()
             }
         }
+    }
+
+    private fun showError() {
+        _message.postValue(Event(R.string.get_breed_images_error_message))
     }
 }

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.ang.acb.dogbreeds.R
 import com.ang.acb.dogbreeds.databinding.BreedImagesFragmentBinding
 import com.ang.acb.dogbreeds.utils.EventObserver
@@ -17,7 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class BreedImagesFragment : Fragment() {
 
     private val viewModel: BreedImagesViewModel by viewModels()
-    private val args: BreedImagesFragmentArgs by navArgs()
     private val adapter: BreedImagesAdapter by lazy { BreedImagesAdapter() }
 
     private var _binding: BreedImagesFragmentBinding? = null
@@ -36,7 +34,6 @@ class BreedImagesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        viewModel.getImages(args.breedName)
         observeData()
     }
 
