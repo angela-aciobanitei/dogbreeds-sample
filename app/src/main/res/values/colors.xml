@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="midnight50">#EFF5FD</color>
+    <color name="midnight100">#CAD5E2</color>
+    <color name="midnight400">#7F8FA6</color>
 </resources>
