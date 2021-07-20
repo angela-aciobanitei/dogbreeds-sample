@@ -4,8 +4,8 @@ import com.ang.acb.dogbreeds.domain.Breed
 import com.ang.acb.dogbreeds.domain.BreedImage
 import com.ang.acb.dogbreeds.domain.SubBreed
 
-fun List<String>?.toBreedImages() = this?.map {
-    BreedImage(url = it)
+fun List<String>?.toBreedImages(breed: String) = this?.map {
+    BreedImage(breed = breed, url = it)
 } ?: emptyList()
 
 fun Map<String, List<String>>?.toBreeds() = this?.map { entry ->

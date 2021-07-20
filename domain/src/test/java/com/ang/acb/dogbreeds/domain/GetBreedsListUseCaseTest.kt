@@ -34,7 +34,7 @@ class GetBreedsListUseCaseTest {
             fakeRepository.addBreeds(
                 listOf(
                     Breed("akita", emptyList()),
-                    Breed("australian", emptyList()),
+                    Breed("australian", listOf(SubBreed("shepherd"))),
                 )
             )
 
@@ -70,20 +70,19 @@ class GetBreedsListUseCaseTest {
     fun getAllBreeds_verifyResultSize() {
         mainCoroutineRule.runBlockingTest {
             // Given 4 breeds that are saved
-            fakeRepository.addBreeds(
-                listOf(
-                    Breed("cattledog", emptyList()),
-                    Breed("chow", emptyList()),
-                    Breed("collie", emptyList()),
-                    Breed("corgi", emptyList()),
-                )
+            val testBreedsList = listOf(
+                Breed("cattledog", listOf(SubBreed("australian"))),
+                Breed("chow", emptyList()),
+                Breed("collie", listOf(SubBreed("border"))),
+                Breed("corgi", listOf(SubBreed("cardigan"))),
             )
+            fakeRepository.addBreeds(testBreedsList)
 
             // When loading all the breeds
             val loaded = useCase.execute()
 
             // Then the loaded data size is as expected
-            assertThat(loaded.size, `is`(4))
+            assertThat(loaded.size, `is`(testBreedsList.size))
         }
     }
 }
