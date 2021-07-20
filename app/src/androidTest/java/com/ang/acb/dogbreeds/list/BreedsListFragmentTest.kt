@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -16,7 +14,6 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.ang.acb.dogbreeds.FakeBreedsRepository
-import com.ang.acb.dogbreeds.MainActivity
 import com.ang.acb.dogbreeds.R
 import com.ang.acb.dogbreeds.domain.Breed
 import com.ang.acb.dogbreeds.domain.BreedsGateway
@@ -59,8 +56,8 @@ class BreedsListFragmentTest {
     @Test
     fun displayDogBreedsList_whenRepoHasNoData_loadingIsHidden() {
         // Given no breeds in repo
-        // When activity is launched
-        launchActivity()
+        // When fragment is launched
+        launchFragmentInHiltContainer<BreedsListFragment>(Bundle())
 
         // Then the progress bar is hidden
         onView(withId(R.id.progressBar)).check(matches(not(isDisplayed())))
@@ -69,8 +66,8 @@ class BreedsListFragmentTest {
     @Test
     fun displayDogBreedsList_whenRepoHasNoData_messageIsShown() {
         // Given no breeds in repo
-        // When  activity is launched
-        launchActivity()
+        // When fragment is launched
+        launchFragmentInHiltContainer<BreedsListFragment>(Bundle())
 
         // Then a message is shown
         val message =
@@ -90,8 +87,9 @@ class BreedsListFragmentTest {
         runBlocking {
             (repository as FakeBreedsRepository).addBreeds(testBreedsList)
         }
-        // When activity is launched
-        launchActivity()
+
+        // When fragment is launched
+        launchFragmentInHiltContainer<BreedsListFragment>(Bundle())
 
         // Then the list of dog breeds displayed matches
         onView(withText(testBreedsList[0].name.capitalize())).check(matches(isDisplayed()))
@@ -112,8 +110,9 @@ class BreedsListFragmentTest {
             (repository as FakeBreedsRepository).setReturnError(true)
 
         }
-        // When activity is launched
-        launchActivity()
+
+        // When fragment is launched
+        launchFragmentInHiltContainer<BreedsListFragment>(Bundle())
 
         // Then the progress bar is hidden
         onView(withId(R.id.progressBar)).check(matches(not(isDisplayed())))
@@ -131,8 +130,9 @@ class BreedsListFragmentTest {
             (repository as FakeBreedsRepository).setReturnError(true)
 
         }
-        // When activity is launched
-        launchActivity()
+
+        // When fragment is launched
+        launchFragmentInHiltContainer<BreedsListFragment>(Bundle())
 
         // Then an error message is shown
         val message = getApplicationContext<Context>().getString(
@@ -151,9 +151,14 @@ class BreedsListFragmentTest {
         runBlocking {
             (repository as FakeBreedsRepository).addBreeds(testBreedsList)
         }
+
         // When on the home screen, clicking on the first item
         val navController = TestNavHostController(getApplicationContext())
-        launchBreedsListFragment(navController)
+        launchFragmentInHiltContainer<BreedsListFragment>(Bundle()) {
+            navController.setGraph(R.navigation.main_navigation)
+            navController.setCurrentDestination(R.id.breedsListFragment)
+            Navigation.setViewNavController(requireView(), navController)
+        }
 
         onView(withId(R.id.rvBreeds)).perform(
             actionOnItemAtPosition<RecyclerView.ViewHolder>(
@@ -164,22 +169,5 @@ class BreedsListFragmentTest {
 
         // Then we navigate to the breed images screen
         assertThat(navController.currentDestination?.id, `is`(R.id.breedImagesFragment))
-    }
-
-    private fun launchActivity(): ActivityScenario<MainActivity>? {
-        val activityScenario = launch(MainActivity::class.java)
-        activityScenario.onActivity { activity ->
-            // Disable animations in RecyclerView
-            (activity.findViewById(R.id.rvBreeds) as RecyclerView).itemAnimator = null
-        }
-        return activityScenario
-    }
-
-    private fun launchBreedsListFragment(navController: TestNavHostController) {
-        launchFragmentInHiltContainer<BreedsListFragment>(Bundle()) {
-            navController.setGraph(R.navigation.main_navigation)
-            navController.setCurrentDestination(R.id.breedsListFragment)
-            Navigation.setViewNavController(requireView(), navController)
-        }
     }
 }

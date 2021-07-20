@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.ang.acb.dogbreeds.R
 import com.ang.acb.dogbreeds.databinding.BreedsListFragmentBinding
 import com.ang.acb.dogbreeds.utils.EventObserver
@@ -68,12 +69,12 @@ class BreedsListFragment : Fragment() {
 
         viewModel.navigation.observe(viewLifecycleOwner, EventObserver { navigation ->
             val navHostFragment = requireActivity().supportFragmentManager
-                .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-            val navController = navHostFragment.navController
+                .findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+            val navController = navHostFragment?.navController
 
             when (navigation) {
                 is BreedsListViewModel.Navigation.ToBreedImages -> {
-                    navController.navigate(
+                    findNavController().navigate(
                         BreedsListFragmentDirections.actionBreedsListToBreedImages(navigation.breedName)
                     )
                 }
