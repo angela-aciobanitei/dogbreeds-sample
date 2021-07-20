@@ -39,6 +39,9 @@ class BreedsListViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = getBreedsListUseCase.execute()
+                if (result.isEmpty()) {
+                    _message.postValue(Event(R.string.get_breeds_list_empty_message))
+                }
                 _breeds.postValue(result)
             } catch (e: Exception) {
                 Timber.e(e)

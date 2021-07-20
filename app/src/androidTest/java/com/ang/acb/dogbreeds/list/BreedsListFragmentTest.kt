@@ -56,6 +56,28 @@ class BreedsListFragmentTest {
     }
 
     @Test
+    fun displayDogBreedsList_whenRepoHasNoData_loadingStops() {
+        // Given no breeds in repo
+        // When activity is launched
+        launchActivity()
+
+        // Then the progress bar is hidden
+        onView(withId(R.id.progressBar)).check(matches(not(isDisplayed())))
+    }
+
+    @Test
+    fun displayDogBreedsList_whenRepoHasNoData_messageShown() {
+        // Given no breeds in repo
+        // When  activity is launched
+        launchActivity()
+
+        // Then a message is shown
+        val message =
+            getApplicationContext<Context>().getString(R.string.get_breeds_list_empty_message)
+        onView(withText(message)).check(matches(isDisplayed()))
+    }
+
+    @Test
     fun displayDogBreedsList_whenRepoHasData() {
         // Given 4 breeds that are saved in the repo
         val testBreedsList = listOf(
@@ -67,7 +89,7 @@ class BreedsListFragmentTest {
         runBlocking {
             (repository as FakeBreedsRepository).addBreeds(testBreedsList)
         }
-        // When on start
+        // When activity is launched
         launchActivity()
 
         // Then the list of dog breeds displayed matches
@@ -89,7 +111,7 @@ class BreedsListFragmentTest {
             (repository as FakeBreedsRepository).setReturnError(true)
 
         }
-        // When on start
+        // When activity is launched
         launchActivity()
 
         // Then the progress bar is hidden
@@ -108,7 +130,7 @@ class BreedsListFragmentTest {
             (repository as FakeBreedsRepository).setReturnError(true)
 
         }
-        // When on start
+        // When activity is launched
         launchActivity()
 
         // Then an error message is shown
