@@ -34,9 +34,9 @@ class BreedsListViewModel @Inject constructor(
         loadBreeds()
     }
 
-    private fun loadBreeds() {
+    fun loadBreeds() {
+        _loading.postValue(true)
         viewModelScope.launch {
-            _loading.postValue(true)
             try {
                 val result = getBreedsListUseCase.execute()
                 _breeds.postValue(result)
