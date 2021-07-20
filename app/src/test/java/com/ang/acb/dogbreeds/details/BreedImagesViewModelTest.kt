@@ -71,14 +71,14 @@ class BreedImagesViewModelTest {
     @Test
     fun loadBreedImages_onSuccess_dataIsLoaded() {
         // Given 10 breed images in the repo
-        val testBreedImagesList = (0 until 10).map {
+        val testImages = (0 until 10).map {
             BreedImage(
                 breed = testBreed.name,
                 url = "https://images.dog.ceo/breeds/${testBreed.name}/$it.jpg"
             )
         }
         runBlocking {
-            fakeRepository.addImages(testBreedImagesList)
+            fakeRepository.addImages(testImages)
         }
 
         // When retrieving the breed images list

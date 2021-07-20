@@ -18,7 +18,7 @@ android {
         versionName "1.0"
 
         // testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunner "com.ang.acb.dogbreeds.CustomTestRunner"
+        testInstrumentationRunner "com.ang.acb.dogbreeds.utils.HiltTestRunner"
     }
 
     android {
@@ -36,6 +36,7 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
+            testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
         }

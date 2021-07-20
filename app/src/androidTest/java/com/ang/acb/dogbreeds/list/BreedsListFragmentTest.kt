@@ -9,8 +9,9 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
@@ -20,7 +21,7 @@ import com.ang.acb.dogbreeds.R
 import com.ang.acb.dogbreeds.domain.Breed
 import com.ang.acb.dogbreeds.domain.BreedsGateway
 import com.ang.acb.dogbreeds.domain.SubBreed
-import com.ang.acb.dogbreeds.launchFragmentInHiltContainer
+import com.ang.acb.dogbreeds.utils.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -56,7 +57,7 @@ class BreedsListFragmentTest {
     }
 
     @Test
-    fun displayDogBreedsList_whenRepoHasNoData_loadingStops() {
+    fun displayDogBreedsList_whenRepoHasNoData_loadingIsHidden() {
         // Given no breeds in repo
         // When activity is launched
         launchActivity()
@@ -66,7 +67,7 @@ class BreedsListFragmentTest {
     }
 
     @Test
-    fun displayDogBreedsList_whenRepoHasNoData_messageShown() {
+    fun displayDogBreedsList_whenRepoHasNoData_messageIsShown() {
         // Given no breeds in repo
         // When  activity is launched
         launchActivity()
@@ -78,7 +79,7 @@ class BreedsListFragmentTest {
     }
 
     @Test
-    fun displayDogBreedsList_whenRepoHasData() {
+    fun displayDogBreedsList_whenRepoHasData_dataIsShown() {
         // Given 4 breeds that are saved in the repo
         val testBreedsList = listOf(
             Breed("cattledog", listOf(SubBreed("australian"))),
@@ -100,7 +101,7 @@ class BreedsListFragmentTest {
     }
 
     @Test
-    fun loadDogBreedsList_error_loadingStops() {
+    fun loadDogBreedsList_onError_loadingIsHidden() {
         // Given 2 breeds that are saved in the repo, make the repository return errors
         val testBreedsList = listOf(
             Breed("collie", listOf(SubBreed("border"))),
@@ -119,7 +120,7 @@ class BreedsListFragmentTest {
     }
 
     @Test
-    fun loadDogBreedsList_error_snackBarErrorMessageIsShown() {
+    fun loadDogBreedsList_onError_messageIsShown() {
         // Given 2 breeds that are saved in the repo, make the repository return errors
         val testBreedsList = listOf(
             Breed("collie", listOf(SubBreed("border"))),
@@ -134,8 +135,9 @@ class BreedsListFragmentTest {
         launchActivity()
 
         // Then an error message is shown
-        val message =
-            getApplicationContext<Context>().getString(R.string.get_breeds_list_error_message)
+        val message = getApplicationContext<Context>().getString(
+            R.string.get_breeds_list_error_message
+        )
         onView(withText(message)).check(matches(isDisplayed()))
     }
 
@@ -153,7 +155,12 @@ class BreedsListFragmentTest {
         val navController = TestNavHostController(getApplicationContext())
         launchBreedsListFragment(navController)
 
-        onView(withText(testBreedsList[0].name.capitalize())).perform(ViewActions.click())
+        onView(withId(R.id.rvBreeds)).perform(
+            actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                1,
+                click()
+            )
+        )
 
         // Then we navigate to the breed images screen
         assertThat(navController.currentDestination?.id, `is`(R.id.breedImagesFragment))
