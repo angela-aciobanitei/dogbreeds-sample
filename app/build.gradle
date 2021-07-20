@@ -20,6 +20,7 @@ android {
         // testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "com.ang.acb.dogbreeds.CustomTestRunner"
     }
+
     android {
         sourceSets {
             String sharedTestDir = 'src/sharedTest/java'
@@ -45,16 +46,24 @@ android {
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = Jvm.version
     }
+
     buildFeatures {
         viewBinding true
     }
+
+    testOptions.unitTests {
+        includeAndroidResources = true
+    }
+
     packagingOptions {
         // Multiple dependency (test coroutines dependencies) bring these files in.
         // Exclude them to enable the test APK to build.
@@ -62,6 +71,7 @@ android {
         excludes += "/META-INF/AL2.0"
         excludes += "/META-INF/LGPL2.1"
     }
+
 }
 
 dependencies {
@@ -79,6 +89,7 @@ dependencies {
     // AndroidX
     implementation "androidx.core:core-ktx:${AndroidX.core}"
     implementation "androidx.legacy:legacy-support-v4:${AndroidX.legacySupport}"
+    implementation "androidx.annotation:annotation:${AndroidX.annotations}"
     implementation "androidx.appcompat:appcompat:${AndroidX.appcompat}"
     implementation "androidx.constraintlayout:constraintlayout:${AndroidX.constraintLayout}"
     implementation "androidx.recyclerview:recyclerview:${AndroidX.recyclerView}"
@@ -121,11 +132,13 @@ dependencies {
 
     androidTestImplementation "com.google.dagger:hilt-android-testing:${Google.hilt}"
     kaptAndroidTest "com.google.dagger:hilt-compiler:${Google.hilt}"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Kotlin.coroutines}"
     androidTestImplementation "junit:junit:${Testing.junit}"
+    androidTestImplementation "org.hamcrest:hamcrest-library:${Testing.hamcrest}"
     androidTestImplementation "androidx.test.ext:junit-ktx:${Testing.junitExt}"
     androidTestImplementation "androidx.test:rules:${Testing.rules}"
+    androidTestImplementation "androidx.test:core-ktx:${Testing.androidxCore}"
     androidTestImplementation "androidx.arch.core:core-testing:${Testing.archCore}"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Kotlin.coroutines}"
     androidTestImplementation "androidx.navigation:navigation-testing:${AndroidX.navigation}"
     androidTestImplementation "androidx.test.espresso:espresso-core: ${Testing.espresso}"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:${Testing.espresso}"

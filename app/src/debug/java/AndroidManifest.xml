@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name=".HiltTestActivity"
+            android:name="com.ang.acb.dogbreeds.HiltTestActivity"
             android:exported="false" />
     </application>
 
