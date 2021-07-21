@@ -23,6 +23,7 @@ import com.ang.acb.dogbreeds.HiltTestActivity
  * [HiltTestActivity] in the debug folder and include it in the debug AndroidManifest.xml file.
  *
  * See: https://developer.android.com/training/dependency-injection/hilt-testing#launchfragment
+ * See: https://github.com/android/architecture-samples/tree/dev-hilt
  */
 inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     fragmentArgs: Bundle? = null,
