@@ -4,8 +4,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import okio.buffer
-import okio.source
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
@@ -16,6 +14,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 @RunWith(JUnit4::class)
 @ExperimentalCoroutinesApi
@@ -40,6 +39,19 @@ class DogApiServiceTest {
     @After
     fun stopService() {
         mockServer.shutdown()
+    }
+
+    @Test
+    fun getAllBreeds_verifyEndpoint() {
+        runBlocking {
+            mockServer.enqueueMockResponse("get_all_breeds_success.json", 200)
+            apiService.getAllBreeds()
+
+            val request = mockServer.takeRequest(2000L, TimeUnit.MILLISECONDS)
+
+            assertThat(request, notNullValue())
+            assertThat(request?.path, `is`("/breeds/list/all"))
+        }
     }
 
     @Test
@@ -73,7 +85,22 @@ class DogApiServiceTest {
     }
 
     @Test
-    fun getAllBreedImages_onSuccess_responseIsNotNull() {
+    fun getBreedsImages_verifyEndpoint() {
+        runBlocking {
+            mockServer.enqueueMockResponse("get_breed_images_success.json", 200)
+            val testBreed = "hound"
+            val testCount = 10
+            apiService.getBreedImages(testBreed, testCount)
+
+            val request = mockServer.takeRequest(2000L, TimeUnit.MILLISECONDS)
+
+            assertThat(request, notNullValue())
+            assertThat(request?.path, `is`("/breed/$testBreed/images/random/$testCount"))
+        }
+    }
+
+    @Test
+    fun getBreedImages_onSuccess_responseIsNotNull() {
         runBlocking {
             mockServer.enqueueMockResponse("get_breed_images_success.json", 200)
             val response = apiService.getBreedImages("hound", 10)
@@ -83,7 +110,7 @@ class DogApiServiceTest {
     }
 
     @Test
-    fun getAllBreedImages_onSuccess_responseIsNotEmpty() {
+    fun getBreedImages_onSuccess_responseIsNotEmpty() {
         runBlocking {
             mockServer.enqueueMockResponse("get_breed_images_success.json", 200)
             val response = apiService.getBreedImages("hound", 10)
@@ -93,7 +120,7 @@ class DogApiServiceTest {
     }
 
     @Test
-    fun getAllBreedImages_onSuccess_verifyResponseSize() {
+    fun getBreedImages_onSuccess_verifyResponseSize() {
         runBlocking {
             mockServer.enqueueMockResponse("get_breed_images_success.json", 200)
             val response = apiService.getBreedImages("hound", 10)
@@ -103,15 +130,10 @@ class DogApiServiceTest {
     }
 
     private fun MockWebServer.enqueueMockResponse(fileName: String, code: Int) {
-        val inputStream = javaClass.classLoader?.getResourceAsStream("apiresponse/$fileName")
-        val source = inputStream?.let {
-            inputStream.source().buffer()
-        }
-
-        source?.let {
+        FileReader.readStringFromFile(fileName)?.let {
             val mockResponse = MockResponse()
                 .setResponseCode(code)
-                .setBody(source.readString(Charsets.UTF_8))
+                .setBody(it)
             enqueue(mockResponse)
         }
     }
