@@ -1,6 +1,6 @@
 # Dog Breeds
 
-A smaple app that uses the [Dog API](https://dog.ceo/dog-api/documentation/) to display a list of breeds and corresponding (random) pictures.
+A sample app that uses the [Dog API](https://dog.ceo/dog-api/documentation/) to display a list of breeds and corresponding (random) pictures.
 
 ## Core Libraries
 *   [Hilt](https://dagger.dev/hilt/) for dependency injection
