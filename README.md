@@ -16,15 +16,15 @@ The app uses clean architecture. For simplicity, it has 3 layers:
 * the _presentation layer_ contains the UI-related code and makes use of the MVVM pattern in this particular case.
 
 ## Testing
-* local unit tests to test the usecases; since every use case depends on the repository, in order to test in isolation, I  have created a fake repository that implements the same interface as the real repository, and thus can be swapped during testing via dependency injection (which is managed by Hilt). 
-* integration tests for view models and fragments
+* I added local unit tests to test the usecases. Since every use case depends on the repository, in order to test in isolation, I  have created a fake repository that implements the same interface as the real repository. This way the two implementations can be swapped during testing. Hilt made this very easy: in order to replace a binding, I just had to replace the module that contains the binding with a test module that contains the bindings that I wanted to use in the test.
+* I also added integration tests for view models and fragments
 * to handle coroutines testing I have used the TestCoroutineDispatcher provided by the [kotlinx-coroutines-test](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/index.html) library
 * to test the REST API interface defined for Retrofit I made use of [MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver)
-* for UI tests I used [Espresso](https://developer.android.com/training/testing/espresso) for UI testing
+* for UI testing I used [Espresso](https://developer.android.com/training/testing/espresso)
 
 ## Problems I have encountered
 * since Espresso doesn't play nicely with coroutines, data binding or Hilt, I had to add a lot of boilerplate code that was not written by me. I mostly used the Google samples as examples, and every copied class/file has links in the comments that point to the original code.
-* since every architectural layer lives in its own Gradle module, during testing I realised that some testings utility classes should be visible across all Gradle modules, both for 'test' and 'androidTest' source code directories. For example, for testing coroutines, I needed a custom JUnit rule to set the main coroutines dispatcher to a TestCoroutineScope. For a single Gradle module I've created a 'sharedTest' source code directory and put the shared testing code there. But for other Gradle modules I simply copied the needed class, which is bad, I know.
+* since every architectural layer lives in its own Gradle module, during testing I realised that some testing utility classes should be visible across all Gradle modules, both for 'test' and 'androidTest' source code directories. For example, for testing coroutines, I needed a custom JUnit rule to set the main coroutines dispatcher to a TestCoroutineScope. For a single Gradle module I've created a 'sharedTest' source code directory and put the shared testing code there. But for other Gradle modules I simply copied the needed class, which is bad, I know.
 
 ## Demo
 
